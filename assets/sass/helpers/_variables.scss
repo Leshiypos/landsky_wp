@@ -1,0 +1,20 @@
+$minWidth: 460;
+$middleWidth: 767;
+$maxWidth: 1594; //Максимальная ширина макета
+
+
+
+$text_light:rgba(255,255,255,1);
+$text_dark:rgba(0, 0, 0, 0.8);
+$text_light_link_noactive: rgba(255,255,255,.6);
+$text_h_span: rgba(30, 90, 93, 1);
+$text_h4: rgba(15,50,51,.8);
+$color_gen : rgba(30, 90, 93, 1);
+
+$button_order : rgba(15,50,51,.8); //Кнопка Заказать
+$button_order_hov : rgba(15,50,51,1); //Кнопка Заказать
+$button_who : rgba(255,191,63,.8); //Кнопка Кто мы
+$button_who_hov : rgba(255,191,63,1); //Кнопка Кто мы
+
+$width_wrap : #{$maxWidth}px;
+$main_radios: 45px;

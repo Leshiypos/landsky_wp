@@ -1,0 +1,91 @@
+.button_header{
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+    max-width: 456px;
+    @include adaptive('max-width', 456 , 340 );
+}
+    .button{
+        font-size: 28px;
+        @include adaptiv-font(28, 20);
+        a{
+            //display: block;
+            text-decoration: none;
+            color: rgba(255,255,255,1);
+            padding: 20px 40px;
+            border-radius: 60px; 
+        }
+        &.order a{
+            background-color: $button_order;
+            &:hover{
+                background-color: $button_order_hov;
+            }
+        }
+        &.who a{
+            background-color: $button_who;
+            &:hover{
+                background-color: $button_who_hov;
+            }
+        }
+    }
+    .but_more{
+        display: inline-block;
+        font-size: 28px;
+        @include adaptiv-font(28, 20);
+        text-decoration: none;
+        color: rgba(255,255,255,1);
+        padding: 20px 40px;
+        border-radius: 60px;
+        background-color: $button_order; 
+        &:hover{
+            background-color: $button_order_hov;
+        }
+    }
+
+
+    .but_send{
+        display: block;
+        cursor: pointer;
+        font-size: 28px;
+        @include adaptiv-font(28, 20);
+        color: rgba(255,255,255,1) !important;
+        padding: 20px 40px !important;
+        margin: 48px auto 0 auto;
+        border-radius: 60px; 
+        background-color: $button_order;
+        border: none;
+        &:hover{
+            background-color: $button_order_hov;
+        }
+    }
+
+    #scroll-top{
+        position: fixed;
+        z-index: 3000;
+        bottom: 50px;
+        right: 50px;
+        display: inline-block;
+        opacity: 1;
+        transition: all 500ms;
+        @include mobil_size{
+            bottom: 10px;
+            right: 10px;
+            opacity: .5;
+        }
+        a{
+            display: inline-block;
+            background-color: $text_h_span;
+            border: 1px solid rgba(255,255,255,1);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        svg{
+            transform: rotate(-90deg);
+            width: 45px;
+            height: 45px;
+            fill:rgba(255,255,255,.6);
+        }
+        &.hide{
+            opacity: 0;
+        }
+    }
