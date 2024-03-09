@@ -103,10 +103,10 @@ if( wp_doing_ajax() ){                                               //Подк�
 }
 
 function send_form(){
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $header = $_POST['header'];
-    $message = $_POST['message'];
+    $name =  sanitize_text_field($_POST['name']);
+    $email = sanitize_email( $_POST['email'] ) ;
+    $header = sanitize_text_field($_POST['header']);
+    $message = sanitize_text_field($_POST['message']);
     $headerinmail = "Заявка с сайта LandSky по теме $header";
     $email_in = get_option('admin_email');
     

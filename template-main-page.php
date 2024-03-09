@@ -99,7 +99,7 @@
 <!-- КОНЕЦ цикла НАШИ РАББОТЫ-->
         </div>
     <?php if ($works) {?>
-        <a href="gallery.html" class="but_more"><?php echo esc_html($works['button']); ?></a>
+        <a href="<?php echo get_page_uri(175); ?>" class="but_more"><?php echo esc_html($works['button']); ?></a>
     <?php } ?>
     </div>
 </section>

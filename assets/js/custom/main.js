@@ -162,7 +162,7 @@ var ax = (winW>640)?'y':'x';
                 success : function( data ){
                   $('#feedback').html(data);
                   setTimeout(closePopUp,1000);
-                  setTimeout(setDefaultForm,2000);
+                  setTimeout(setDefaultForm,4000);
                 }
               }); 
     }
