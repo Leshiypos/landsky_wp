@@ -1,3 +1,9 @@
+<?php 
+    $body_class = '';
+    if (is_page_template( 'template-main-page.php' )) $body_class = 'main_page';
+    if (is_page_template( 'template-works.php' )) $body_class = 'gallery';
+?>
+
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -6,11 +12,11 @@
     <title><?php bloginfo('name'); ?> || <?php wp_title(); ?> </title>
 	<?php wp_head(); ?>
 </head>
-<body <?php body_class('main_page'); ?>>
+<body <?php body_class($body_class); ?>>
 <header id="top">
 <div class="wrap_header">
     <div class="top_header">
-        <div class="logo"><a href="<?php bloginfo( 'home_url' ); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" >LandSky</a></div>
+        <div class="logo"><a href="<?php echo get_home_url(); ?>"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/logo.png" >LandSky</a></div>
         <nav>
             <svg id="but_menu" width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M28.125 13.125H1.875C0.839473 13.125 0 13.9645 0 15C0 16.0355 0.839473 16.875 1.875 16.875H28.125C29.1605 16.875 30 16.0355 30 15C30 13.9645 29.1605 13.125 28.125 13.125Z" fill="white"/>
@@ -27,10 +33,12 @@
             ] ); ?>
         </nav>
     </div>
-    <h1><?php the_field('title_h1'); ?></h1>
-    <div class="button_header">
-        <div class="button order" id="but_order"><a href="#">Заказать</a></div>
-        <div class="button who"><a href="#about_as">Кто мы</a></div>
-    </div>
+    <?php if (is_page_template( 'template-main-page.php' )) { ?>
+        <h1><?php the_field('title_h1'); ?></h1>
+        <div class="button_header">
+            <div class="button order" id="but_order"><a href="#">Заказать</a></div>
+            <div class="button who"><a href="#about_as">Кто мы</a></div>
+        </div>
+    <?php } ?>
 </div>
 </header>

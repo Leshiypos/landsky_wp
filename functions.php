@@ -1,5 +1,12 @@
 <?php
-require get_template_directory() . '/inc/redux-option-panel.php'; // Подключение редукс 
+//Подключение файлов
+require get_template_directory() . '/inc/functions/redux-option-panel.php'; // Подключение редукс 
+//require get_template_directory() . '/inc/functions/wpbakery.php'; // Подключение wpbakery
+
+
+
+
+
 wp_add_inline_script( 'jquery', '$ = jQuery;' ); //Убираем ошибку с $ в JQuery
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.
@@ -93,6 +100,12 @@ function landsky_setup() {
 	add_image_size( 'works_thumb_w', 788, 486, true );
 	add_image_size( 'works_thumb', 384, 486, true );
 	add_image_size( 'parthners_thumb', 501, 725, true );
+	add_image_size( 'rev_img', 518, 300, true );
+	add_image_size( 'avatar', 64, 64, true );
+	add_image_size( 'team_avatar', 361, 361, true );
+	add_image_size( 'icon_howtowork', 130, 130, true );
+	add_image_size( 'about_img', 600, 421, true );
+	add_image_size( 'miniature_works', 100, 100, true );
 }
 add_action( 'after_setup_theme', 'landsky_setup' );
 
@@ -109,38 +122,7 @@ function landsky_content_width() {
 }
 add_action( 'after_setup_theme', 'landsky_content_width', 0 );
 
-/**
- * Register widget area.
- *
- * @link https://developer.wordpress.org/themes/functionality/sidebars/#registering-a-sidebar
- */
 
-/**
- * Implement the Custom Header feature.
- */
-require get_template_directory() . '/inc/custom-header.php';
-
-/**
- * Custom template tags for this theme.
- */
-require get_template_directory() . '/inc/template-tags.php';
-
-/**
- * Functions which enhance the theme by hooking into WordPress.
- */
-require get_template_directory() . '/inc/template-functions.php';
-
-/**
- * Customizer additions.
- */
-require get_template_directory() . '/inc/customizer.php';
-
-/**
- * Load Jetpack compatibility file.
- */
-if ( defined( 'JETPACK__VERSION' ) ) {
-	require get_template_directory() . '/inc/jetpack.php';
-}
 
 
 //WP-dev
@@ -158,14 +140,27 @@ function landsky_scripts() {
 	wp_enqueue_style( 'landsky-owlcarousel', get_template_directory_uri(  ).'/assets/js/owlcarousel/owl.carousel.min.css' , array(),  _S_VERSION );
 	wp_enqueue_style( 'landsky-owlcarousel-default', get_template_directory_uri(  ).'/assets/js/owlcarousel/owl.theme.default.min.css' , array(),  _S_VERSION );
 	wp_enqueue_style( 'landsky-main-style', get_template_directory_uri(  ).'/assets/css/styles.css' , array(),  _S_VERSION );
-	wp_enqueue_style( 'landsky-heqdermain-style', get_template_directory_uri(  ).'/assets/css/header_main.css' , array(),  _S_VERSION );
+	
+
+	if (is_page_template( 'template-main-page.php' )) {
+		wp_enqueue_style( 'landsky-heqdermain-style', get_template_directory_uri(  ).'/assets/css/header_main.css' , array(),  _S_VERSION );
+	} else {
+		wp_enqueue_style( 'landsky-heqderother-style', get_template_directory_uri(  ).'/assets/css/header_other.css' , array(),  _S_VERSION );
+	}
+
 	wp_enqueue_script( 'landsky-fancybox', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.umd.js', array('jquery'), _S_VERSION, false );
+	wp_enqueue_script( 'carousel.umd.js', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.umd.js', array('jquery'), _S_VERSION, false );
+
+	
+
 	wp_enqueue_script( 'landsky-owlcarousel', get_template_directory_uri(  ).'/assets/js/owlcarousel/owl.carousel.min.js' , array('jquery'), _S_VERSION, false );
 	wp_enqueue_script( 'landsky-validate', get_template_directory_uri(  ).'/assets/js/validate/jquery.validate.min.js' , array('jquery'), _S_VERSION, false );
 	wp_enqueue_script( 'landsky-main-js', get_template_directory_uri(  ).'/assets/js/custom/main.js' , array('jquery'), _S_VERSION, false );
 	wp_enqueue_style( 'landsky-fancyapps', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/fancybox/fancybox.css' , array(),  _S_VERSION );
+	wp_enqueue_style( 'carousel.css', 'https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0/dist/carousel/carousel.css' , array(),  _S_VERSION );
 }
 add_action( 'wp_enqueue_scripts', 'landsky_scripts' );
+require get_template_directory() . '/inc/functions/ajax.php'; // Подключение Скрипты AJAX
 
 /*
  * Регистрируем постайп для Сервисов
@@ -223,7 +218,7 @@ function landsky_register_custom_post_type() {
 	   array(
 		   'label' => 'Профессия',
 		   'rewrite' => array( 'slug' => 'profession' ),
-		   'hierarchical' => false,
+		   'hierarchical' => true,
 	   )
    );
 
@@ -300,8 +295,29 @@ function landsky_register_custom_post_type() {
 		'hierarchical' => true,
 	)
 );
-
 }
+
+ //Функция хлебные крошки
+ function get_breadcrumb() {
+    echo '<a href="'.home_url().'" class="advertising__link" rel="nofollow">Главная</a>';
+    if (is_category() || is_single()) {
+        echo "&nbsp;&nbsp;&#47;&nbsp;&nbsp;";
+        the_category(' &bull; ');
+            if (is_single()) {
+                echo " &nbsp;&nbsp;&#47;&nbsp;&nbsp; ";
+                the_title();
+            }
+    } elseif (is_page()) {
+        echo "&nbsp;&nbsp;&#47;&nbsp;&nbsp;";
+        echo the_title();
+    } elseif (is_search()) {
+        echo "&nbsp;&nbsp;;&nbsp;&nbsp;Search Results for... ";
+        echo '"<em>';
+        echo the_search_query();
+        echo '</em>"';
+    }
+}  
+ // Окончание Функции хлебные крошки
 
 
 
